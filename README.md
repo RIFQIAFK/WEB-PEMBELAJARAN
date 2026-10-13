@@ -37,3 +37,4 @@
    - Tempelkan URL tersebut ke kolom **URL Google Apps Script Web App**, lalu klik **Simpan Pengaturan**.
 5. **Selesai!** Setiap siswa yang mengerjakan kuis di Bagian 5, nilainya akan **langsung terkirim secara real-time** ke Google Spreadsheet Anda.
 # PEMBELAJARAN-FISIKA
+# WEB-PEMBELAJARAN
