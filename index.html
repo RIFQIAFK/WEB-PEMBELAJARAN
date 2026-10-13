@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif Fisika: Vektor - SMA Negeri 1 Belitang</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#070d1e',
+                            900: '#0a192f',
+                            800: '#0f2038',
+                            700: '#172a45',
+                            600: '#1e3a5f'
+                        },
+                        teal: {
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e'
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- KaTeX CSS & JS for Math Formula Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas & jsPDF for Certificate PDF Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#070d1e] text-slate-100 font-sans min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+
+    <!-- ======================================================== -->
+    <!-- HEADER & NAVBAR (5 BAGIAN UTAMA)                         -->
+    <!-- ======================================================== -->
+    <header class="sticky top-0 z-50 bg-[#0a192f]/95 backdrop-blur-md border-b border-teal-500/20 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <!-- Logo & Brand -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('bagian1')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 via-teal-500 to-amber-500 p-0.5 shadow-md flex items-center justify-center">
+                    <div class="w-full h-full bg-[#0a192f] rounded-[10px] flex items-center justify-center text-teal-400">
+                        <i class="fa-solid fa-location-arrow text-lg transform -rotate-45"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-1.5">
+                        FISIKA VEKTOR <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold">FASE F</span>
+                    </h1>
+                    <p class="text-[11px] text-teal-300 font-medium">SMA Negeri 1 Belitang • Deep Learning Fisika</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Menu (5 Bagian Utama) -->
+            <nav class="hidden lg:flex items-center space-x-1">
+                <button onclick="switchTab('bagian1')" id="nav-bagian1" class="nav-btn active">
+                    <i class="fa-solid fa-graduation-cap mr-1.5 text-teal-400"></i> 1. Profil & CP/TP
+                </button>
+                <button onclick="switchTab('bagian2')" id="nav-bagian2" class="nav-btn">
+                    <i class="fa-solid fa-compass mr-1.5 text-amber-400"></i> 2. Pemantik
+                </button>
+                <button onclick="switchTab('bagian3')" id="nav-bagian3" class="nav-btn">
+                    <i class="fa-solid fa-book-open mr-1.5 text-teal-400"></i> 3. Materi & Rumus
+                </button>
+                <button onclick="switchTab('bagian4')" id="nav-bagian4" class="nav-btn">
+                    <i class="fa-solid fa-flask mr-1.5 text-teal-400"></i> 4. Lab Maya
+                </button>
+                <button onclick="switchTab('bagian5')" id="nav-bagian5" class="nav-btn">
+                    <i class="fa-solid fa-award mr-1.5 text-amber-400"></i> 5. Kuis & Sertifikat
+                </button>
+            </nav>
+
+            <!-- Student Profile Badge / Button -->
+            <div class="flex items-center space-x-2">
+                <button onclick="openProfileModal()" class="px-3 py-1.5 rounded-xl bg-[#0f2038] hover:bg-[#172a45] border border-teal-500/30 text-xs text-slate-200 flex items-center space-x-2 transition shadow">
+                    <div class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-xs">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="text-left hidden sm:block">
+                        <span id="badge-nama-siswa" class="block font-semibold text-white truncate max-w-[110px]">Siswa Tamu</span>
+                        <span id="badge-kelas-siswa" class="block text-[10px] text-teal-400">Fase F</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Scrollable Bar for 5 Bagian Utama -->
+        <div class="flex lg:hidden overflow-x-auto bg-[#091323] border-t border-slate-800 px-3 py-2 space-x-2 text-xs no-scrollbar">
+            <button onclick="switchTab('bagian1')" class="px-3 py-1.5 bg-[#0f2038] rounded-lg text-slate-200 whitespace-nowrap active:bg-teal-600">1. Profil & CP/TP</button>
+            <button onclick="switchTab('bagian2')" class="px-3 py-1.5 bg-[#0f2038] rounded-lg text-slate-200 whitespace-nowrap active:bg-teal-600">2. Pemantik</button>
+            <button onclick="switchTab('bagian3')" class="px-3 py-1.5 bg-[#0f2038] rounded-lg text-slate-200 whitespace-nowrap active:bg-teal-600">3. Materi</button>
+            <button onclick="switchTab('bagian4')" class="px-3 py-1.5 bg-[#0f2038] rounded-lg text-slate-200 whitespace-nowrap active:bg-teal-600">4. Lab Maya</button>
+            <button onclick="switchTab('bagian5')" class="px-3 py-1.5 bg-[#0f2038] rounded-lg text-slate-200 whitespace-nowrap active:bg-teal-600">5. Kuis & Sertifikat</button>
+        </div>
+    </header>
+
+    <!-- ======================================================== -->
+    <!-- MAIN CONTENT CONTAINER                                  -->
+    <!-- ======================================================== -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ==================================================== -->
+        <!-- BAGIAN 1: PROFIL, CP, DAN TP                         -->
+        <!-- ==================================================== -->
+        <section id="bagian1" class="tab-content">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0a192f] via-[#0f2038] to-[#172a45] border border-teal-500/30 p-6 sm:p-10 shadow-2xl mb-8">
+                <div class="absolute -top-24 -right-24 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
+                    <div class="max-w-2xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/15 border border-teal-500/40 text-teal-300 text-xs font-semibold uppercase tracking-wider mb-4">
+                            <i class="fa-solid fa-atom"></i> Modul Ajar Deep Learning Fisika • Bab 1
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                            VEKTOR: <span class="bg-gradient-to-r from-teal-400 via-teal-200 to-amber-400 bg-clip-text text-transparent">Representasi & Operasi Presisi</span>
+                        </h2>
+                        <p class="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
+                            Media pembelajaran interaktif berbasis web untuk mengasah penalaran fisis siswa dalam memahami arah, representasi grafis, dan operasi vektor analitis di kehidupan nyata.
+                        </p>
+                        <div class="flex flex-wrap gap-3 mt-6">
+                            <button onclick="switchTab('bagian2')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 text-white font-bold text-xs sm:text-sm shadow-lg shadow-teal-500/25 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <span>Mulai Eksplorasi Pemantik</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="switchTab('bagian4')" class="px-5 py-2.5 rounded-xl bg-[#0f2038] hover:bg-[#172a45] border border-amber-500/40 text-amber-300 font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>Buka Lab Maya</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modul Identitas Card -->
+                    <div class="w-full lg:w-auto bg-[#0a192f]/90 border border-teal-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-md min-w-[320px]">
+                        <div class="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-4 border-b border-slate-700/80 pb-3">
+                            <i class="fa-solid fa-address-card text-base"></i> Profil Pembelajaran & Identitas
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Nama Sekolah:</span>
+                                <span class="font-bold text-slate-100 text-right">SMA Negeri 1 Belitang</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Penyusun:</span>
+                                <span class="font-bold text-teal-300 text-right">Alfiyatur Rosyida, S.Pd., Gr.</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Mata Pelajaran:</span>
+                                <span class="font-bold text-slate-100 text-right">IPA (Fisika)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Kelas / Fase / Sem:</span>
+                                <span class="font-bold text-amber-300 text-right">XI / F / Ganjil</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Alokasi Waktu:</span>
+                                <span class="font-semibold text-slate-200 text-right">3 x 45 menit (8-9 Pertemuan)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">Tahun Pelajaran:</span>
+                                <span class="font-semibold text-slate-200 text-right">2026 / 2027</span>
+                            </div>
+                            <div class="pt-2">
+                                <span class="text-slate-400 block mb-1.5">Dimensi Profil Lulusan:</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-0.5 rounded bg-teal-950 border border-teal-600/40 text-teal-300 text-[10px]">Penalaran Kritis</span>
+                                    <span class="px-2 py-0.5 rounded bg-teal-950 border border-teal-600/40 text-teal-300 text-[10px]">Kreativitas</span>
+                                    <span class="px-2 py-0.5 rounded bg-teal-950 border border-teal-600/40 text-teal-300 text-[10px]">Kolaborasi</span>
+                                    <span class="px-2 py-0.5 rounded bg-teal-950 border border-teal-600/40 text-teal-300 text-[10px]">Kemandirian</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CP & TP Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Capaian Pembelajaran -->
+                <div class="bg-[#0f2038] border border-teal-500/25 rounded-2xl p-6 sm:p-7 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 text-teal-400 font-bold text-base mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-teal-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-scroll text-sm"></i>
+                            </div>
+                            <h3>Capaian Pembelajaran (CP No. 32 Tahun 2024)</h3>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#0a192f] border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed italic">
+                            "Peserta didik mampu memahami konsep gerak, yaitu hubungan gaya dan gerak serta pemanfaatannya untuk menjelaskan fenomena alam, desain, atau rekayasa struktur; penerapan hukum fluida dalam kehidupan sehari-hari; konsep kalor dan termodinamika serta penerapannya untuk menganalisis dampak perubahan iklim; gejala gelombang dan penerapannya dalam kehidupan sehari-hari; rangkaian listrik dan fenomena elektromagnetik; teori dasar fisika modern dan pengaruhnya terhadap perkembangan teknologi; serta teori dasar digital dan penggunaannya dalam kehidupan sehari-hari."
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-teal-400/80 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-check"></i> Selaras dengan Standar Kompetensi Kurikulum Nasional 2024
+                    </div>
+                </div>
+
+                <!-- Tujuan Pembelajaran -->
+                <div class="bg-[#0f2038] border border-amber-500/25 rounded-2xl p-6 sm:p-7 shadow-xl">
+                    <div class="flex items-center gap-3 text-amber-400 font-bold text-base mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye text-sm"></i>
+                        </div>
+                        <h3>Tujuan Pembelajaran (TP) Spesifik Bab 1</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-[#0a192f] border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                            <p class="text-xs sm:text-sm text-slate-200">
+                                <strong>Menjelaskan konsep vektor dan sifat-sifatnya</strong> yang ditemui dalam kehidupan sehari-hari (kesamaan vektor, vektor negatif, dan pergeseran sejajar).
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#0a192f] border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                            <p class="text-xs sm:text-sm text-slate-200">
+                                <strong>Merepresentasikan vektor</strong> untuk menggambarkan fenomena fisika secara presisi baik secara grafis (panah bertaraf) maupun analitis (vektor satuan).
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#0a192f] border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+                            <p class="text-xs sm:text-sm text-slate-200">
+                                <strong>Membedakan operasi skalar aljabar dan operasi vektor</strong> geometri/analitis serta melakukan operasi vektor (penjumlahan, pengurangan, resultan) dalam menyelesaikan masalah nyata rekayasa dan fenomena alam.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- BAGIAN 2: PERTANYAAN PEMANTIK & GAMBAR PEMANTIK      -->
+        <!-- ==================================================== -->
+        <section id="bagian2" class="tab-content hidden">
+            <div class="bg-[#0f2038] border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl mb-8">
+                <div class="border-b border-slate-700/80 pb-4 mb-6">
+                    <span class="px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full text-xs font-semibold tracking-wide uppercase">
+                        Joyful & Mindful Hook • Pertanyaan Pemantik
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">Fenomena Nyata: Misteri Arah & Interaksi Vektor</h2>
+                    <p class="text-slate-400 text-sm mt-1">Amati skenario kontekstual berikut dan rasakan bagaimana konsep vektor memandu dunia kita.</p>
+                </div>
+
+                <!-- 2 Interactive Scenarios Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                    <!-- Skenario 1: Kompas & Arah Navigasi -->
+                    <div class="bg-[#0a192f] border border-teal-500/25 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-2.5 py-0.5 rounded bg-teal-500/20 text-teal-300 text-xs font-bold uppercase tracking-wider">Skenario 1</span>
+                                <span class="text-xs text-amber-400 font-semibold"><i class="fa-solid fa-compass mr-1"></i> Navigasi Global</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Kompas Digital & Penentuan Titik Tujuan GPS</h3>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed bg-[#0f2038]/80 p-3.5 rounded-xl border border-slate-700/70 mb-5">
+                                <i class="fa-solid fa-quote-left text-teal-400 mr-1.5"></i>
+                                "Ketika kita melihat kompas yang selalu menunjuk ke arah Utara, terlintaskah di benak kalian apakah ada gaya magnet bumi yang bekerja di sana? Dan bagaimana GPS ponsel menentukan titik lokasi dan arah tujuanmu?"
+                            </p>
+
+                            <!-- Interactive Compass SVG Visual -->
+                            <div class="bg-[#070d1e] p-6 rounded-2xl border border-slate-800 text-center flex flex-col items-center justify-center relative overflow-hidden">
+                                <div class="w-48 h-48 relative flex items-center justify-center">
+                                    <!-- Compass Dial Outer -->
+                                    <svg class="w-full h-full" viewBox="0 0 200 200">
+                                        <circle cx="100" cy="100" r="92" fill="#0b1329" stroke="#1e3a5f" stroke-width="4"/>
+                                        <circle cx="100" cy="100" r="82" fill="none" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="3 3"/>
+                                        <!-- Cardinal Markers -->
+                                        <text x="100" y="30" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="bold">U (0°)</text>
+                                        <text x="175" y="105" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">T (90°)</text>
+                                        <text x="100" y="180" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">S (180°)</text>
+                                        <text x="25" y="105" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">B (270°)</text>
+                                    </svg>
+                                    <!-- Rotating Needle -->
+                                    <div id="compass-needle" class="absolute w-44 h-44 flex items-center justify-center transition-transform duration-700 ease-out" style="transform: rotate(0deg);">
+                                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                                            <!-- North pointer (Red/Gold) -->
+                                            <polygon points="100,22 108,100 100,90 92,100" fill="#f59e0b" filter="drop-shadow(0 0 6px rgba(245, 158, 11, 0.6))"/>
+                                            <!-- South pointer (Silver/Blue) -->
+                                            <polygon points="100,178 108,100 100,110 92,100" fill="#0d9488"/>
+                                            <!-- Center pin -->
+                                            <circle cx="100" cy="100" r="6" fill="#ffffff" stroke="#070d1e" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 text-xs text-slate-300">
+                                    Arah Jarum Saat Ini: <strong id="compass-deg-val" class="text-amber-400 font-mono text-sm">0°</strong>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Buttons for Compass -->
+                            <div class="mt-4">
+                                <label class="text-[11px] text-slate-400 block mb-1.5 font-semibold">Coba Uji Putaran Kompas Berdasarkan Arah Mata Angin:</label>
+                                <div class="grid grid-cols-4 gap-1.5 text-xs">
+                                    <button onclick="setCompassAngle(0, 'Utara: Vektor penunjuk sejajar garis medan magnet bumi (θ = 0°).')" class="px-2 py-1 bg-[#0f2038] hover:bg-teal-600/30 rounded border border-slate-700 text-teal-300 font-semibold">Utara</button>
+                                    <button onclick="setCompassAngle(45, 'Timur Laut: Vektor perpindahan membentuk sudut 45° di antara sumbu X dan Y.')" class="px-2 py-1 bg-[#0f2038] hover:bg-teal-600/30 rounded border border-slate-700 text-slate-300">Timur Laut</button>
+                                    <button onclick="setCompassAngle(90, 'Timur: Vektor tegak lurus ke kanan pada sumbu Kartesius X positif (θ = 90°).')" class="px-2 py-1 bg-[#0f2038] hover:bg-teal-600/30 rounded border border-slate-700 text-slate-300">Timur</button>
+                                    <button onclick="setCompassAngle(135, 'Tenggara: Vektor memiliki komponen horizontal positif dan vertikal negatif.')" class="px-2 py-1 bg-[#0f2038] hover:bg-teal-600/30 rounded border border-slate-700 text-slate-300">Tenggara</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mindful Hook Explanation Card -->
+                        <div id="compass-exp-text" class="mt-4 p-3 rounded-xl bg-teal-950/40 border border-teal-500/30 text-xs text-teal-200">
+                            <i class="fa-solid fa-lightbulb text-amber-400 mr-1.5"></i>
+                            <strong>Makna Vektor Navigasi:</strong> Kompas membuktikan bahwa informasi besar saja tidak cukup! Anda tidak bisa sampai di tujuan hanya dengan tahu "jarak 5 km", Anda wajib tahu <em>ke arah mana</em> (vektor) harus melangkah.
+                        </div>
+                    </div>
+
+                    <!-- Skenario 2: Drone Rescue / Hujan Angin -->
+                    <div class="bg-[#0a192f] border border-amber-500/25 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">Skenario 2</span>
+                                <span class="text-xs text-teal-400 font-semibold"><i class="fa-solid fa-wind mr-1"></i> Rekayasa & Alam</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Drone Penyelamat (Rescue) & Tetesan Hujan Miring</h3>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed bg-[#0f2038]/80 p-3.5 rounded-xl border border-slate-700/70 mb-5">
+                                <i class="fa-solid fa-quote-left text-amber-400 mr-1.5"></i>
+                                "Saat hujan deras disertai angin kencang, mengapa tetesan air jatuh miring padahal gravitasi menarik tegak lurus ke bawah? Jika Drone Penyelamat terbang ke depan namun dihempas angin dari samping, mengapa posisinya bisa bergeser?"
+                            </p>
+
+                            <!-- Drone Rescue Visual Simulator -->
+                            <div class="bg-[#070d1e] p-4 rounded-2xl border border-slate-800 relative">
+                                <svg class="w-full h-44" viewBox="0 0 300 200">
+                                    <defs>
+                                        <marker id="arrowTealHook" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6"/>
+                                        </marker>
+                                        <marker id="arrowBlueHook" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9"/>
+                                        </marker>
+                                        <marker id="arrowGoldHook" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+                                        </marker>
+                                    </defs>
+
+                                    <!-- Grid lines -->
+                                    <line x1="150" y1="20" x2="150" y2="180" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="2 2"/>
+                                    <line x1="20" y1="150" x2="280" y2="150" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="2 2"/>
+
+                                    <!-- Drone Icon at Origin (150, 150) -->
+                                    <circle cx="150" cy="150" r="10" fill="#0f2038" stroke="#14b8a6" stroke-width="2"/>
+                                    <text x="150" y="154" text-anchor="middle" fill="#5eead4" font-size="9"><i class="fa-solid fa-drone"></i></text>
+
+                                    <!-- Forward Drone Velocity Vector (North) -->
+                                    <path id="drone-fwd-arrow" d="M 150 150 L 150 90" stroke="#14b8a6" stroke-width="3" marker-end="url(#arrowTealHook)"/>
+                                    <text x="120" y="115" fill="#14b8a6" font-size="10" font-weight="bold">v Drone</text>
+
+                                    <!-- Side Wind Vector (East) -->
+                                    <path id="drone-wind-arrow" d="M 150 150 L 195 150" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrowBlueHook)"/>
+                                    <text x="180" y="170" fill="#0ea5e9" font-size="10" font-weight="bold">v Angin</text>
+
+                                    <!-- Resultant Drift Vector (Gold) -->
+                                    <path id="drone-result-arrow" d="M 150 150 L 195 90" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#arrowGoldHook)"/>
+                                    <text x="200" y="85" fill="#f59e0b" font-size="11" font-weight="bold">v Resultan (Drift)</text>
+                                </svg>
+
+                                <!-- Slider Controls for Drone & Wind -->
+                                <div class="grid grid-cols-2 gap-3 text-xs mt-2 pt-2 border-t border-slate-800">
+                                    <div>
+                                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                            <span>Kecepatan Drone (Utara):</span>
+                                            <span id="val-v-drone" class="font-bold text-teal-400">12 m/s</span>
+                                        </div>
+                                        <input type="range" id="slider-v-drone" min="4" max="20" value="12" step="1" oninput="updateDroneSimulation()" class="w-full accent-teal-500">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                            <span>Kecepatan Angin (Timur):</span>
+                                            <span id="val-v-angin" class="font-bold text-sky-400">5 m/s</span>
+                                        </div>
+                                        <input type="range" id="slider-v-angin" min="1" max="15" value="5" step="1" oninput="updateDroneSimulation()" class="w-full accent-sky-500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-3 rounded-xl bg-[#0f2038] border border-amber-500/30 text-xs">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-slate-300">Kecepatan Resultan Gabungan:</span>
+                                    <span id="val-v-res" class="text-amber-400 font-bold font-mono">13.00 m/s</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-300">Arah Penyimpangan (Drift):</span>
+                                    <span id="val-sudut-drift" class="text-amber-300 font-bold font-mono">22.6° ke arah Timur Laut</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-3 rounded-xl bg-amber-950/40 border border-amber-500/30 text-xs text-amber-200">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i>
+                            <strong>Solusi Fisika Rekayasa:</strong> Pilot drone rescue harus mengarahkan hidung pesawat sedikit miring ke arah Barat Laut agar hembusan angin dari samping tepat menetralkan posisinya lurus ke target penyelamatan!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- BAGIAN 3: MATERI PEMBELAJARAN LENGKAP DENGAN GAMBAR  -->
+        <!-- ==================================================== -->
+        <section id="bagian3" class="tab-content hidden">
+            <div class="bg-[#0f2038] border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl mb-8">
+                <!-- Header Materi -->
+                <div class="border-b border-slate-700/80 pb-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <span class="px-3 py-1 bg-teal-500/20 border border-teal-500/40 text-teal-300 rounded-full text-xs font-semibold tracking-wide uppercase">
+                            Struktur Materi Lengkap • Deep Understanding
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">Materi Pembelajaran Konseptual & Analitis Vektor</h2>
+                    </div>
+                </div>
+
+                <!-- Sub-tab Navigation Buttons -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8">
+                    <button onclick="switchSubTab('tab3-1')" id="btn-tab3-1" class="subtab-btn active text-left">
+                        <span class="block text-[10px] text-teal-400 uppercase tracking-widest font-bold">Sub-Bab 3.1</span>
+                        <span class="text-xs sm:text-sm font-bold text-white">Skalar vs Vektor</span>
+                    </button>
+                    <button onclick="switchSubTab('tab3-2')" id="btn-tab3-2" class="subtab-btn text-left">
+                        <span class="block text-[10px] text-teal-400 uppercase tracking-widest font-bold">Sub-Bab 3.2</span>
+                        <span class="text-xs sm:text-sm font-bold text-white">Representasi & Sifat</span>
+                    </button>
+                    <button onclick="switchSubTab('tab3-3')" id="btn-tab3-3" class="subtab-btn text-left">
+                        <span class="block text-[10px] text-teal-400 uppercase tracking-widest font-bold">Sub-Bab 3.3</span>
+                        <span class="text-xs sm:text-sm font-bold text-white">Operasi Geometri</span>
+                    </button>
+                    <button onclick="switchSubTab('tab3-4')" id="btn-tab3-4" class="subtab-btn text-left">
+                        <span class="block text-[10px] text-teal-400 uppercase tracking-widest font-bold">Sub-Bab 3.4</span>
+                        <span class="text-xs sm:text-sm font-bold text-white">Analitis & Komponen</span>
+                    </button>
+                </div>
+
+                <!-- ------------------------------------------------ -->
+                <!-- SUB-TAB 3.1: SKALAR VS VEKTOR                    -->
+                <!-- ------------------------------------------------ -->
+                <div id="tab3-1" class="material-subtab-content space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs">1</span>
+                                Konsep Dasar: Membedakan Skalar dan Vektor
+                            </h3>
+                            <p>
+                                Dalam fisika, semua besaran yang dapat diukur dikelompokkan menjadi dua kategori fundamental berdasarkan keterlibatan arahnya:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-[#0a192f] p-4 rounded-xl border border-slate-700">
+                                    <h4 class="font-bold text-teal-400 text-sm mb-1.5 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-scale-balanced"></i> Besaran Skalar
+                                    </h4>
+                                    <p class="text-xs text-slate-300 mb-2">
+                                        Besaran yang <strong>hanya memiliki nilai (besar)</strong> dan satuan, tanpa memerlukan keterangan arah.
+                                    </p>
+                                    <div class="text-[11px] text-slate-400 bg-[#070d1e] p-2 rounded">
+                                        <strong>Contoh:</strong> Massa ($5\text{ kg}$), Suhu ($27^\circ\text{C}$), Waktu ($10\text{ s}$), Jarak tempuh, Laju, Energi.
+                                    </div>
+                                </div>
+                                <div class="bg-[#0a192f] p-4 rounded-xl border border-amber-500/30">
+                                    <h4 class="font-bold text-amber-400 text-sm mb-1.5 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-arrow-trend-up"></i> Besaran Vektor
+                                    </h4>
+                                    <p class="text-xs text-slate-300 mb-2">
+                                        Besaran yang memiliki <strong>nilai (besar) DAN arah</strong> yang spesifik dalam ruang.
+                                    </p>
+                                    <div class="text-[11px] text-slate-400 bg-[#070d1e] p-2 rounded">
+                                        <strong>Contoh:</strong> Perpindahan, Kecepatan, Percepatan, Gaya ($F$), Momentum, Kuat Medan Listrik.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Perbedaan Nyata Jarak vs Perpindahan -->
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-teal-950/50 to-navy-800 border border-teal-500/30">
+                                <h4 class="font-bold text-amber-300 text-xs sm:text-sm mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-person-walking"></i> Eksperimen Nyata: Berjalan 3 m ke Timur lalu 4 m ke Utara
+                                </h4>
+                                <p class="text-xs text-slate-300 mb-3">
+                                    Geser slider langkah di bawah ini untuk melihat perbedaan langsung antara <strong>Jarak (Skalar)</strong> dan <strong>Perpindahan (Vektor)</strong>:
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 mb-3">
+                                    <div>
+                                        <label class="text-[11px] text-slate-400 block mb-1">Langkah ke Timur ($x$ meter):</label>
+                                        <input type="range" id="walk-x" min="1" max="6" value="3" step="1" oninput="updateVectorWalk()" class="w-full accent-teal-500">
+                                    </div>
+                                    <div>
+                                        <label class="text-[11px] text-slate-400 block mb-1">Langkah ke Utara ($y$ meter):</label>
+                                        <input type="range" id="walk-y" min="1" max="6" value="4" step="1" oninput="updateVectorWalk()" class="w-full accent-amber-500">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <div id="walk-distance-result" class="p-2.5 rounded-lg bg-[#0a192f] border border-slate-700"></div>
+                                    <div id="walk-displacement-result" class="p-2.5 rounded-lg bg-[#0a192f] border border-teal-500/40"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diagram SVG Interaktif Jarak vs Perpindahan -->
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                            <h4 class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2 text-center">Diagram Visual Jarak vs Perpindahan</h4>
+                            <div class="bg-[#070d1e] p-3 rounded-xl flex items-center justify-center min-h-[220px]">
+                                <svg class="w-full h-52" viewBox="0 0 240 200">
+                                    <defs>
+                                        <marker id="arrowWalkTeal" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6"/>
+                                        </marker>
+                                        <marker id="arrowWalkBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9"/>
+                                        </marker>
+                                        <marker id="arrowWalkGold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+                                        </marker>
+                                    </defs>
+                                    <!-- Grid lines -->
+                                    <line x1="40" y1="160" x2="220" y2="160" stroke="#1e3a5f" stroke-width="1"/>
+                                    <line x1="40" y1="20" x2="40" y2="160" stroke="#1e3a5f" stroke-width="1"/>
+
+                                    <!-- Step 1: East -->
+                                    <path id="walk-svg-x" d="M 40 160 L 115 160" stroke="#14b8a6" stroke-width="3" marker-end="url(#arrowWalkTeal)"/>
+                                    <!-- Step 2: North -->
+                                    <path id="walk-svg-y" d="M 115 160 L 115 60" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrowWalkBlue)"/>
+                                    <!-- Resultant Displacement -->
+                                    <path id="walk-svg-res" d="M 40 160 L 115 60" stroke="#f59e0b" stroke-width="3.5" stroke-dasharray="4 2" marker-end="url(#arrowWalkGold)"/>
+
+                                    <!-- Labels -->
+                                    <circle cx="40" cy="160" r="5" fill="#ffffff"/>
+                                    <text x="30" y="178" fill="#94a3b8" font-size="10">Awal (0,0)</text>
+                                    <text x="80" y="175" fill="#14b8a6" font-size="10" font-weight="bold">3 m (Timur)</text>
+                                    <text x="125" y="115" fill="#0ea5e9" font-size="10" font-weight="bold">4 m (Utara)</text>
+                                    <text x="50" y="100" fill="#f59e0b" font-size="11" font-weight="bold">Perpindahan = 5 m</text>
+                                </svg>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 text-center">Perpindahan merupakan garis lurus terpendek dari posisi awal ke akhir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------------------------------ -->
+                <!-- SUB-TAB 3.2: REPRESENTASI & SIFAT VEKTOR         -->
+                <!-- ------------------------------------------------ -->
+                <div id="tab3-2" class="material-subtab-content space-y-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs">2</span>
+                                Representasi Grafis & Sifat-Sifat Vektor
+                            </h3>
+                            <p>
+                                Secara grafis, suatu vektor disimbolkan sebagai sebuah <strong>ruas garis berarah (anak panah)</strong>.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="p-3 bg-[#0a192f] rounded-xl border border-slate-700">
+                                    <strong class="text-teal-300 block mb-1">Panjang Anak Panah:</strong>
+                                    Menggambarkan <em>besar (nilai mutlak/magnitude)</em> dari vektor tersebut ($|\vec{V}|$). Semakin panjang panah, semakin besar nilainya.
+                                </div>
+                                <div class="p-3 bg-[#0a192f] rounded-xl border border-slate-700">
+                                    <strong class="text-amber-400 block mb-1">Mata Panah:</strong>
+                                    Menggambarkan <em>arah</em> kerja besaran vektor terhadap suatu sumbu acuan (sudut $\theta$).
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-white text-sm pt-2">3 Sifat Utama Vektor:</h4>
+                            <div class="space-y-2.5">
+                                <div class="p-3 bg-[#0a192f] rounded-xl border border-teal-500/30">
+                                    <span class="text-teal-400 font-bold text-xs uppercase block mb-1">1. Kesamaan Dua Vektor</span>
+                                    Dua buah vektor dikatakan <strong>sama persis ($\vec{A} = \vec{B}$)</strong> jika dan hanya jika keduanya memiliki <strong>besar yang sama</strong> dan <strong>arah yang sama</strong>, meskipun titik tangkap/pangkalnya berada di lokasi yang berbeda.
+                                </div>
+                                <div class="p-3 bg-[#0a192f] rounded-xl border border-amber-500/30">
+                                    <span class="text-amber-400 font-bold text-xs uppercase block mb-1">2. Vektor Negatif (Lawan)</span>
+                                    Vektor negatif dari vektor $\vec{A}$ adalah $-\vec{A}$, yaitu vektor yang memiliki <strong>besar yang sama persis</strong> namun dengan <strong>arah yang berlawanan $180^\circ$</strong>.
+                                </div>
+                                <div class="p-3 bg-[#0a192f] rounded-xl border border-sky-500/30">
+                                    <span class="text-sky-400 font-bold text-xs uppercase block mb-1">3. Pergeseran Sejajar (Translasional)</span>
+                                    Suatu vektor <strong>bebas dipindahkan (digeser sejajar)</strong> ke titik ruang mana pun tanpa mengubah nilainya, selama panjang panah dan arah kemiringannya tidak berubah.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diagram Anatomi Vektor -->
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                            <h4 class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2 text-center">Anatomi Bagian-Bagian Vektor</h4>
+                            <div class="bg-[#070d1e] p-3 rounded-xl flex items-center justify-center min-h-[220px]">
+                                <svg class="w-full h-52" viewBox="0 0 260 200">
+                                    <defs>
+                                        <marker id="arrowAnatomi" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6"/>
+                                        </marker>
+                                    </defs>
+                                    <!-- Horizontal reference axis -->
+                                    <line x1="30" y1="150" x2="230" y2="150" stroke="#334e68" stroke-width="1.5" stroke-dasharray="4 4"/>
+                                    <text x="215" y="165" fill="#64748b" font-size="10">Sumbu Acuan</text>
+
+                                    <!-- Angle arc theta -->
+                                    <path d="M 80 150 A 40 40 0 0 0 74 125" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                                    <text x="90" y="140" fill="#f59e0b" font-size="12" font-weight="bold">θ</text>
+
+                                    <!-- Main Vector Arrow -->
+                                    <line x1="40" y1="150" x2="190" y2="60" stroke="#14b8a6" stroke-width="4" marker-end="url(#arrowAnatomi)"/>
+
+                                    <!-- Annotations -->
+                                    <circle cx="40" cy="150" r="5" fill="#f59e0b"/>
+                                    <text x="15" y="170" fill="#f59e0b" font-size="10" font-weight="bold">Pangkal (Titik Tangkap)</text>
+
+                                    <text x="180" y="45" fill="#14b8a6" font-size="10" font-weight="bold">Ujung (Mata Panah)</text>
+                                    <text x="100" y="90" fill="#ffffff" font-size="12" font-weight="bold">Panjang = Besar (|V|)</text>
+                                </svg>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 text-center">Representasi anak panah menghubungkan titik pangkal menuju ujung dengan sudut $\theta$.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------------------------------ -->
+                <!-- SUB-TAB 3.3: OPERASI GEOMETRI (SEGITIGA & JJG)   -->
+                <!-- ------------------------------------------------ -->
+                <div id="tab3-3" class="material-subtab-content space-y-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Metode Segitiga -->
+                        <div class="bg-[#0a192f] p-5 sm:p-6 rounded-2xl border border-teal-500/30 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded bg-teal-500/20 text-teal-300 text-xs font-bold uppercase">Metode 1</span>
+                                <h4 class="text-base sm:text-lg font-bold text-white">Metode Segitiga (Poligon)</h4>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Digunakan untuk menjumlahkan dua vektor secara berantai: <strong>Ujung vektor pertama ($\vec{A}$) bertemu dengan pangkal vektor kedua ($\vec{B}$)</strong>.
+                            </p>
+                            <div class="bg-[#070d1e] p-3 rounded-xl">
+                                <svg class="w-full h-44" viewBox="0 0 260 160">
+                                    <defs>
+                                        <marker id="mSegA" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6"/></marker>
+                                        <marker id="mSegB" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9"/></marker>
+                                        <marker id="mSegR" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/></marker>
+                                    </defs>
+                                    <!-- Vector A -->
+                                    <line x1="30" y1="130" x2="130" y2="130" stroke="#14b8a6" stroke-width="3" marker-end="url(#mSegA)"/>
+                                    <text x="80" y="145" fill="#14b8a6" font-size="11" font-weight="bold">A</text>
+                                    <!-- Vector B -->
+                                    <line x1="130" y1="130" x2="200" y2="40" stroke="#0ea5e9" stroke-width="3" marker-end="url(#mSegB)"/>
+                                    <text x="175" y="85" fill="#0ea5e9" font-size="11" font-weight="bold">B</text>
+                                    <!-- Resultant R -->
+                                    <line x1="30" y1="130" x2="200" y2="40" stroke="#f59e0b" stroke-width="3.5" stroke-dasharray="3 2" marker-end="url(#mSegR)"/>
+                                    <text x="95" y="70" fill="#f59e0b" font-size="12" font-weight="bold">R = A + B</text>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-teal-300 bg-teal-950/40 p-2.5 rounded-lg border border-teal-500/30">
+                                <strong>Langkah:</strong> Tarik panah Resultan $\vec{R}$ dari pangkal vektor pertama ($\vec{A}$) langsung menuju ujung vektor terakhir ($\vec{B}$).
+                            </div>
+                        </div>
+
+                        <!-- Metode Jajaran Genjang -->
+                        <div class="bg-[#0a192f] p-5 sm:p-6 rounded-2xl border border-amber-500/30 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 text-xs font-bold uppercase">Metode 2</span>
+                                <h4 class="text-base sm:text-lg font-bold text-white">Metode Jajaran Genjang</h4>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Digunakan saat <strong>kedua vektor bertitik tangkap sama (pangkal bertemu pangkal)</strong> dan membentuk sudut apit $\theta$.
+                            </p>
+                            <div class="bg-[#070d1e] p-3 rounded-xl">
+                                <svg class="w-full h-44" viewBox="0 0 260 160">
+                                    <!-- Vector A & B from same origin (40, 130) -->
+                                    <line x1="40" y1="130" x2="140" y2="130" stroke="#14b8a6" stroke-width="3" marker-end="url(#mSegA)"/>
+                                    <line x1="40" y1="130" x2="110" y2="40" stroke="#0ea5e9" stroke-width="3" marker-end="url(#mSegB)"/>
+                                    <!-- Projections -->
+                                    <line x1="140" y1="130" x2="210" y2="40" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3 3"/>
+                                    <line x1="110" y1="40" x2="210" y2="40" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="3 3"/>
+                                    <!-- Resultant diagonal -->
+                                    <line x1="40" y1="130" x2="210" y2="40" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#mSegR)"/>
+                                    <text x="80" y="145" fill="#14b8a6" font-size="11" font-weight="bold">A</text>
+                                    <text x="60" y="80" fill="#0ea5e9" font-size="11" font-weight="bold">B</text>
+                                    <text x="145" y="75" fill="#f59e0b" font-size="12" font-weight="bold">Diagonal R</text>
+                                </svg>
+                            </div>
+                            <!-- Rumus Cosinus -->
+                            <div class="p-3 bg-[#070d1e] rounded-xl border border-amber-500/40 text-center">
+                                <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Rumus Besar Resultan (Aturan Cosinus):</span>
+                                <div class="text-sm font-bold text-amber-300 my-1">
+                                    $$R = \sqrt{A^2 + B^2 + 2AB\cos(\theta)}$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------------------------------ -->
+                <!-- SUB-TAB 3.4: OPERASI ANALITIS & PENGURAIAN       -->
+                <!-- ------------------------------------------------ -->
+                <div id="tab3-4" class="material-subtab-content space-y-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs">4</span>
+                                Operasi Analitis & Penguraian Komponen Kartesius 2D
+                            </h3>
+                            <p>
+                                Vektor gaya $\vec{F}$ yang membentuk sudut $\theta$ terhadap sumbu horizontal X diuraikan menjadi dua komponen saling tegak lurus:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-[#0a192f] p-4 rounded-xl border border-teal-500/30">
+                                    <h4 class="font-bold text-teal-300 text-sm mb-1">Komponen Sumbu X (Horizontal):</h4>
+                                    <div class="text-base font-bold text-teal-400 my-1">
+                                        $$F_x = F \cdot \cos(\theta)$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-400">Sisi di samping sudut apit menggunakan fungsi cosinus.</p>
+                                </div>
+                                <div class="bg-[#0a192f] p-4 rounded-xl border border-sky-500/30">
+                                    <h4 class="font-bold text-sky-300 text-sm mb-1">Komponen Sumbu Y (Vertikal):</h4>
+                                    <div class="text-base font-bold text-sky-400 my-1">
+                                        $$F_y = F \cdot \sin(\theta)$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-400">Sisi di depan sudut apit menggunakan fungsi sinus.</p>
+                                </div>
+                            </div>
+
+                            <!-- Notasi Vektor & Resultan Banyak Gaya -->
+                            <div class="bg-[#0a192f] p-4 rounded-xl border border-slate-700 space-y-2">
+                                <h4 class="font-bold text-amber-400 text-sm">Notasi Vektor Satuan & Resultan Total Banyak Gaya:</h4>
+                                <div class="text-xs space-y-1">
+                                    <p>• Notasi Vektor Satuan: <strong class="text-slate-100">$\vec{F} = F_x \hat{i} + F_y \hat{j}$</strong> (di mana $\hat{i}$ arah sumbu X dan $\hat{j}$ arah sumbu Y).</p>
+                                    <p>• Besar Resultan: <strong class="text-amber-300">$$R = \sqrt{(\Sigma F_x)^2 + (\Sigma F_y)^2}$$</strong></p>
+                                    <p>• Arah Sudut Resultan: <strong class="text-teal-300">$$\tan(\alpha) = \frac{\Sigma F_y}{\Sigma F_x}$$</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Mini Kalkulator Penguraian Vektor -->
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-teal-950/60 to-navy-800 border border-teal-500/30">
+                                <h4 class="font-bold text-amber-300 text-xs sm:text-sm mb-2 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-calculator"></i> Mini Kalkulator Penguraian Komponen Interaktif
+                                </h4>
+                                <div class="grid grid-cols-2 gap-4 mb-3">
+                                    <div>
+                                        <label class="text-[11px] text-slate-400 block mb-1">Besar Gaya $F$ (Newton):</label>
+                                        <input type="number" id="calc-f" value="20" min="1" max="100" oninput="calculateComponents()" class="w-full bg-[#0a192f] border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-teal-500 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="text-[11px] text-slate-400 block mb-1">Sudut $\theta$ (Derajat °):</label>
+                                        <input type="number" id="calc-deg" value="37" min="0" max="90" oninput="calculateComponents()" class="w-full bg-[#0a192f] border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-teal-500 focus:outline-none">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                    <div class="p-2 bg-[#0a192f] rounded border border-slate-800">
+                                        <span class="text-slate-400 block text-[10px]">Komponen $F_x$:</span>
+                                        <strong id="calc-fx-val" class="text-teal-400 text-sm">15.97 N</strong>
+                                    </div>
+                                    <div class="p-2 bg-[#0a192f] rounded border border-slate-800">
+                                        <span class="text-slate-400 block text-[10px]">Komponen $F_y$:</span>
+                                        <strong id="calc-fy-val" class="text-sky-400 text-sm">12.04 N</strong>
+                                    </div>
+                                    <div class="p-2 bg-[#0a192f] rounded border border-slate-800 flex items-center justify-center">
+                                        <span id="calc-vector-notation" class="text-amber-300 text-xs font-mono"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diagram Visual Kartesius Penguraian -->
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                            <h4 class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2 text-center">Grafik Penguraian pada Kartesius 2D</h4>
+                            <div class="bg-[#070d1e] p-3 rounded-xl flex items-center justify-center min-h-[220px]">
+                                <svg class="w-full h-52" viewBox="0 0 240 200">
+                                    <defs>
+                                        <marker id="mCalcTeal" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6"/></marker>
+                                        <marker id="mCalcSky" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9"/></marker>
+                                        <marker id="mCalcGold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/></marker>
+                                    </defs>
+                                    <!-- Axes -->
+                                    <line x1="30" y1="150" x2="220" y2="150" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="30" y1="20" x2="30" y2="150" stroke="#64748b" stroke-width="1.5"/>
+                                    <text x="210" y="165" fill="#64748b" font-size="10">+X</text>
+                                    <text x="15" y="25" fill="#64748b" font-size="10">+Y</text>
+
+                                    <!-- Fx Vector (Teal) -->
+                                    <path id="calc-arrow-fx" d="M 30 150 L 140 150" stroke="#14b8a6" stroke-width="3" marker-end="url(#mCalcTeal)"/>
+                                    <text x="80" y="170" fill="#14b8a6" font-size="11" font-weight="bold">Fx</text>
+
+                                    <!-- Fy Vector (Sky) -->
+                                    <path id="calc-arrow-fy" d="M 140 150 L 140 70" stroke="#0ea5e9" stroke-width="2.5" stroke-dasharray="3 2" marker-end="url(#mCalcSky)"/>
+                                    <text x="150" y="110" fill="#0ea5e9" font-size="11" font-weight="bold">Fy</text>
+
+                                    <!-- Main Force Vector F (Gold) -->
+                                    <path id="calc-arrow-f" d="M 30 150 L 140 70" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#mCalcGold)"/>
+                                    <text x="70" y="95" fill="#f59e0b" font-size="12" font-weight="bold">F</text>
+                                </svg>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2 text-center">Garis putus-putus menunjukkan proyeksi ortogonal tegak lurus terhadap sumbu.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- BAGIAN 4: LAB MAYA / SIMULASI INTERAKTIF             -->
+        <!-- ==================================================== -->
+        <section id="bagian4" class="tab-content hidden">
+            <div class="bg-[#0f2038] border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl mb-8">
+                <!-- Header Lab Maya -->
+                <div class="border-b border-slate-700/80 pb-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <span class="px-3 py-1 bg-teal-500/20 border border-teal-500/40 text-teal-300 rounded-full text-xs font-semibold tracking-wide uppercase">
+                            Eksplorasi Virtual Lab • Joyful Experiment
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">Laboratorium Maya Penjumlahan Vektor</h2>
+                        <p class="text-slate-400 text-sm mt-1">Eksplorasi hubungan sudut apit dan resultan dengan Mini Simulator Kanvas & PhET Interactive.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://phet.colorado.edu/sims/html/vector-addition/latest/vector-addition_all.html" target="_blank" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-xl shadow flex items-center gap-2 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Layar Penuh PhET</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Petunjuk Tugas Lab Maya Box -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/40 via-[#0a192f] to-teal-950/40 border border-amber-500/40 mb-8">
+                    <h4 class="text-amber-400 font-bold text-sm sm:text-base flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-clipboard-question text-lg"></i>
+                        Petunjuk Tugas Lab Maya:
+                    </h4>
+                    <p class="text-slate-200 text-xs sm:text-sm leading-relaxed mb-3">
+                        <em>"Cobalah ubah sudut antara dua vektor gaya dari 0° hingga 180°. Amati kapan nilai resultan bernilai maksimum dan kapan bernilai nol!"</em>
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button onclick="setPresetVector('0deg')" class="px-3 py-1.5 rounded-lg bg-[#0f2038] hover:bg-teal-600/30 border border-teal-500/40 text-teal-300 font-semibold transition">
+                            <i class="fa-solid fa-circle-dot mr-1"></i> Uji Sudut 0° (Searah / Max)
+                        </button>
+                        <button onclick="setPresetVector('90deg')" class="px-3 py-1.5 rounded-lg bg-[#0f2038] hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 font-semibold transition">
+                            <i class="fa-solid fa-circle-dot mr-1"></i> Uji Sudut 90° (Tegak Lurus)
+                        </button>
+                        <button onclick="setPresetVector('180deg')" class="px-3 py-1.5 rounded-lg bg-[#0f2038] hover:bg-rose-600/30 border border-rose-500/40 text-rose-300 font-semibold transition">
+                            <i class="fa-solid fa-circle-dot mr-1"></i> Uji Sudut 180° (Berlawanan / Min)
+                        </button>
+                        <button onclick="setPresetVector('drone')" class="px-3 py-1.5 rounded-lg bg-[#0f2038] hover:bg-amber-600/30 border border-amber-500/40 text-amber-300 font-semibold transition">
+                            <i class="fa-solid fa-wind mr-1"></i> Skenario Drone & Angin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MINI SIMULATOR CANVAS (BUILT-IN INTERACTIVE) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Interactive Canvas Area -->
+                    <div class="lg:col-span-2 bg-[#070d1e] rounded-2xl p-4 border border-teal-500/30 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="w-full flex items-center justify-between mb-2 px-2 text-xs">
+                            <div class="flex items-center gap-3">
+                                <span class="flex items-center gap-1.5 text-teal-400 font-bold"><span class="w-3 h-3 rounded-full bg-teal-400 inline-block"></span> Vektor A</span>
+                                <span class="flex items-center gap-1.5 text-sky-400 font-bold"><span class="w-3 h-3 rounded-full bg-sky-400 inline-block"></span> Vektor B</span>
+                                <span class="flex items-center gap-1.5 text-amber-400 font-bold"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> Resultan R</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button onclick="setSimMethod('parallelogram')" id="btn-sim-parallelogram" class="sim-method-btn px-2.5 py-1 text-[11px] rounded bg-teal-600 text-white font-bold">Jajaran Genjang</button>
+                                <button onclick="setSimMethod('triangle')" id="btn-sim-triangle" class="sim-method-btn px-2.5 py-1 text-[11px] rounded bg-[#0f2038] text-slate-300">Segitiga</button>
+                            </div>
+                        </div>
+
+                        <canvas id="sim-canvas" class="w-full h-[360px] bg-[#070d1e] rounded-xl border border-slate-800 shadow-inner"></canvas>
+
+                        <!-- Live Analysis Feedback -->
+                        <div id="sim-analysis-feedback" class="w-full mt-3 p-3 rounded-xl bg-[#0a192f] border border-slate-700 text-xs text-slate-200 text-center"></div>
+                    </div>
+
+                    <!-- Simulator Controls & Real-Time Readout -->
+                    <div class="space-y-4">
+                        <!-- Sliders Panel -->
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700 space-y-3">
+                            <h4 class="font-bold text-teal-300 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-sliders"></i> Kontrol Panjang & Sudut Vektor
+                            </h4>
+                            <div>
+                                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                    <span>Panjang Vektor A:</span>
+                                    <span id="sim-val-la" class="font-bold text-teal-400">50 N</span>
+                                </div>
+                                <input type="range" id="sim-slider-la" min="10" max="80" value="50" class="w-full accent-teal-500">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                    <span>Arah Sudut $\theta_A$:</span>
+                                    <span id="sim-val-aa" class="font-bold text-teal-400">30°</span>
+                                </div>
+                                <input type="range" id="sim-slider-aa" min="0" max="360" value="30" class="w-full accent-teal-500">
+                            </div>
+                            <div class="pt-2 border-t border-slate-800">
+                                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                    <span>Panjang Vektor B:</span>
+                                    <span id="sim-val-lb" class="font-bold text-sky-400">40 N</span>
+                                </div>
+                                <input type="range" id="sim-slider-lb" min="10" max="80" value="40" class="w-full accent-sky-500">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                    <span>Arah Sudut $\theta_B$:</span>
+                                    <span id="sim-val-ab" class="font-bold text-sky-400">120°</span>
+                                </div>
+                                <input type="range" id="sim-slider-ab" min="0" max="360" value="120" class="w-full accent-sky-500">
+                            </div>
+                        </div>
+
+                        <!-- Real-Time Data Readout -->
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-amber-500/30 space-y-2">
+                            <h4 class="font-bold text-amber-400 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-chart-line"></i> Data Hasil Pengukuran Real-Time
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2 rounded bg-[#070d1e] border border-slate-800">
+                                    <span class="text-[10px] text-slate-400 block">Besar Resultan $|R|$:</span>
+                                    <strong id="sim-read-r" class="text-base text-amber-400 font-mono">0 N</strong>
+                                </div>
+                                <div class="p-2 rounded bg-[#070d1e] border border-slate-800">
+                                    <span class="text-[10px] text-slate-400 block">Arah Sudut $\theta_R$:</span>
+                                    <strong id="sim-read-theta-r" class="text-base text-amber-300 font-mono">0°</strong>
+                                </div>
+                                <div class="p-2 rounded bg-[#070d1e] border border-slate-800">
+                                    <span class="text-[10px] text-slate-400 block">Komponen $R_x$:</span>
+                                    <strong id="sim-read-rx" class="text-xs text-teal-300 font-mono">0 N</strong>
+                                </div>
+                                <div class="p-2 rounded bg-[#070d1e] border border-slate-800">
+                                    <span class="text-[10px] text-slate-400 block">Komponen $R_y$:</span>
+                                    <strong id="sim-read-ry" class="text-xs text-sky-300 font-mono">0 N</strong>
+                                </div>
+                            </div>
+                            <div class="p-2 rounded bg-[#070d1e] border border-slate-800 text-xs flex justify-between">
+                                <span class="text-slate-400">Sudut Apit Antara A & B:</span>
+                                <strong id="sim-read-sudut-apit" class="text-teal-300 font-mono">0°</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMBEDDED PHET SIMULATION SECTION -->
+                <div class="bg-[#0a192f] rounded-2xl p-5 border border-slate-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-cubes text-teal-400"></i> PhET Interactive Simulation: Vector Addition
+                        </h4>
+                        <span class="text-[11px] text-slate-400">University of Colorado Boulder</span>
+                    </div>
+                    <div class="w-full aspect-video min-h-[380px] rounded-xl overflow-hidden border border-slate-800 bg-[#070d1e]">
+                        <iframe src="https://phet.colorado.edu/sims/html/vector-addition/latest/vector-addition_all.html" 
+                                class="w-full h-full border-0" 
+                                title="PhET Vector Addition Simulation"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- BAGIAN 5: KUIS INTERAKTIF & SERTIFIKAT INTEGRASI     -->
+        <!-- ==================================================== -->
+        <section id="bagian5" class="tab-content hidden">
+            <div class="bg-[#0f2038] border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl mb-8">
+                <!-- Header Asesmen -->
+                <div class="border-b border-slate-700/80 pb-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <span class="px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full text-xs font-semibold tracking-wide uppercase">
+                            Evaluasi Formatif & Sertifikasi • Standar KKTP = 82
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">Kuis Interaktif & Sertifikasi Vektor</h2>
+                        <p class="text-slate-400 text-sm mt-1">Uji pemahaman Anda melalui 8 Soal Pilihan Ganda dan 2 Soal Pencocokan Drag & Drop.</p>
+                    </div>
+
+                    <!-- Info Skor & KKTP Badge -->
+                    <div class="bg-[#0a192f] border border-amber-500/40 px-4 py-2.5 rounded-xl text-xs flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block text-[10px]">Batas Kelulusan (KKTP):</span>
+                            <strong class="text-amber-300 text-sm">Minimal 82 Poin</strong> (Total 100)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bagian A: 8 Soal Pilihan Ganda -->
+                <div class="mb-10">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs font-bold">A</span>
+                        <h3 class="text-lg font-bold text-white">8 Soal Pilihan Ganda (10 Poin per Soal = Total 80 Poin)</h3>
+                    </div>
+                    <div id="mcq-quiz-list" class="space-y-4">
+                        <!-- Injected dynamically via app.js -->
+                    </div>
+                </div>
+
+                <!-- Bagian B: 2 Soal Pencocokan Drag & Drop -->
+                <div class="mb-10">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold">B</span>
+                        <h3 class="text-lg font-bold text-white">2 Soal Pencocokan / Matching Drag & Drop (10 Poin per Soal = Total 20 Poin)</h3>
+                    </div>
+                    <div id="matching-quiz-list" class="space-y-6">
+                        <!-- Injected dynamically via app.js -->
+                    </div>
+                </div>
+
+                <!-- Action Button: Selesai & Hitung Skor -->
+                <div class="text-center pt-4 pb-8 border-t border-slate-800">
+                    <button onclick="submitEntireQuiz()" id="btn-submit-all-quiz" class="px-8 py-3.5 bg-gradient-to-r from-teal-600 via-teal-500 to-amber-500 hover:from-teal-500 hover:to-amber-400 text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-xl shadow-teal-500/25 transition transform hover:scale-105 inline-flex items-center gap-2.5">
+                        <i class="fa-solid fa-paper-plane text-lg"></i>
+                        <span>Kirim & Evaluasi Seluruh Jawaban Kuis</span>
+                    </button>
+                    <p class="text-xs text-slate-400 mt-2">Pastikan nama dan identitas Anda sudah diatur sebelum mengirimkan kuis.</p>
+                </div>
+
+                <!-- ================================================ -->
+                <!-- HASIL KUIS, REKAPITULASI, & DOWNLOAD SERTIFIKAT  -->
+                <!-- ================================================ -->
+                <div id="quiz-result-section" class="hidden mt-8 pt-8 border-t border-slate-800">
+                    <!-- Status Kelulusan Banner (Gerbang Logika KKTP) -->
+                    <div id="res-kktp-banner"></div>
+
+                    <!-- Skor Breakdown Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto my-6 text-center">
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700">
+                            <span class="text-xs text-slate-400 block mb-1">Skor Total Akhir</span>
+                            <strong id="res-skor-total" class="text-3xl text-amber-400 font-black">0</strong>
+                            <span class="text-[10px] text-slate-500 block">Maksimal 100</span>
+                        </div>
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700">
+                            <span class="text-xs text-slate-400 block mb-1">Pilihan Ganda Benar</span>
+                            <strong id="res-mcq-benar" class="text-3xl text-teal-400 font-black">0 / 8</strong>
+                            <span class="text-[10px] text-slate-500 block">Bobot 80 Poin</span>
+                        </div>
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700">
+                            <span class="text-xs text-slate-400 block mb-1">Skor Pencocokan</span>
+                            <strong id="res-matching-skor" class="text-3xl text-sky-400 font-black">0 / 20</strong>
+                            <span class="text-[10px] text-slate-500 block">Bobot 20 Poin</span>
+                        </div>
+                        <div class="bg-[#0a192f] p-4 rounded-2xl border border-slate-700 flex flex-col justify-center items-center">
+                            <span class="text-xs text-slate-400 block mb-1">Google Sheet</span>
+                            <span id="res-sheet-status" class="text-xs text-amber-400 font-bold">Mengirim...</span>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Download Sertifikat Interaktif (Aktif Jika >= 82) -->
+                    <div class="text-center my-8">
+                        <button onclick="openCertificateModal()" id="btn-download-cert" class="hidden px-8 py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-2xl shadow-amber-500/30 transition transform hover:scale-105 inline-flex items-center gap-3 border-2 border-amber-300">
+                            <i class="fa-solid fa-file-pdf text-xl text-rose-700"></i>
+                            <span>DOWNLOAD SERTIFIKAT HASIL BELAJAR (PDF)</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======================================================== -->
+    <!-- FOOTER                                                   -->
+    <!-- ======================================================== -->
+    <footer class="bg-[#070d1e] border-t border-slate-800/80 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-medium text-slate-400">
+                Media Pembelajaran Interaktif Fisika SMA Fase F (Kelas XI) • Bab 1: Vektor
+            </p>
+            <p>
+                SMA Negeri 1 Belitang • Alfiyatur Rosyida, S.Pd., Gr. • Tahun Pelajaran 2026/2027
+            </p>
+            <p class="text-[11px] text-slate-600">
+                Dilengkapi Integrasi Google Spreadsheet API & Simulasi PhET Vector Addition Interactive
+            </p>
+        </div>
+    </footer>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 1: PENGATURAN PROFIL SISWA                         -->
+    <!-- ======================================================== -->
+    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-[#0a192f] border border-teal-500/40 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                    <i class="fa-solid fa-id-badge text-teal-400"></i> Identitas Peserta Didik
+                </h3>
+                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+
+            <div class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Nama Lengkap Siswa:</label>
+                    <input type="text" id="input-nama" class="w-full bg-[#070d1e] border border-slate-700 rounded-xl p-3 text-slate-100 focus:border-teal-500 focus:outline-none" placeholder="Masukkan nama lengkap...">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Kelas / Rombel:</label>
+                    <input type="text" id="input-kelas" class="w-full bg-[#070d1e] border border-slate-700 rounded-xl p-3 text-slate-100 focus:border-teal-500 focus:outline-none" placeholder="Contoh: XI.F-1">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Nama Sekolah / Instansi:</label>
+                    <input type="text" id="input-sekolah" class="w-full bg-[#070d1e] border border-slate-700 rounded-xl p-3 text-slate-100 focus:border-teal-500 focus:outline-none" value="SMA Negeri 1 Belitang">
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+                <button onclick="closeProfileModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold">Tutup</button>
+                <button onclick="saveStudentProfile()" class="px-5 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-xl text-xs font-bold shadow-lg">Simpan Profil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 2: SERTIFIKAT PREVIEW & CETAK/DOWNLOAD PDF         -->
+    <!-- ======================================================== -->
+    <div id="certificate-print-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-4 overflow-y-auto hidden">
+        <div class="max-w-4xl w-full flex items-center justify-between text-white mb-3 px-2">
+            <h4 class="font-bold text-sm sm:text-base flex items-center gap-2 text-amber-300">
+                <i class="fa-solid fa-award"></i> Pratinjau Sertifikat Kelulusan Resmi
+            </h4>
+            <div class="flex items-center gap-2">
+                <button onclick="downloadCertificatePDF()" id="btn-dl-action" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-lg">
+                    <i class="fa-solid fa-download"></i> Unduh File PDF
+                </button>
+                <button onclick="window.print()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs">
+                    <i class="fa-solid fa-print"></i> Cetak
+                </button>
+                <button onclick="closeCertificateModal()" class="px-3 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold">
+                    &times; Tutup
+                </button>
+            </div>
+        </div>
+
+        <!-- CERTIFICATE RENDER AREA (900x636 px - High Resolution Standard Certificate) -->
+        <div class="overflow-x-auto w-full flex justify-center p-2">
+            <div id="certificate-render-area" class="shadow-2xl rounded-sm">
+                <div class="cert-border-outer">
+                    <div class="cert-border-inner">
+                        <!-- Top Certificate Header -->
+                        <div class="text-center pt-2">
+                            <div class="text-[13px] font-sans font-bold tracking-widest text-[#1e3a5f] uppercase">
+                                SMA NEGERI 1 BELITANG
+                            </div>
+                            <div class="text-[11px] font-sans text-slate-600 tracking-wider">
+                                MEDIA PEMBELAJARAN INTERAKTIF FISIKA KELAS XI (FASE F)
+                            </div>
+                            <div class="w-24 h-0.5 bg-amber-600 mx-auto my-2"></div>
+                            <h2 class="text-3xl font-serif font-black text-[#0f2038] tracking-wide uppercase mt-1">
+                                SERTIFIKAT KOMPETENSI KELULUSAN FISIKA
+                            </h2>
+                            <p class="text-[11px] font-sans text-slate-500 font-mono mt-0.5">
+                                No. Sertifikat: <span id="cert-nomor-id">VEC-XI-2026-001</span>
+                            </p>
+                        </div>
+
+                        <!-- Certificate Body Content -->
+                        <div class="text-center my-auto px-8 space-y-3">
+                            <p class="text-sm font-serif italic text-slate-700">
+                                Diberikan dengan bangga kepada:
+                            </p>
+                            <div class="text-3xl font-serif font-bold text-[#0a192f] border-b-2 border-amber-500/80 inline-block px-10 pb-1">
+                                <span id="cert-nama-siswa">Nama Siswa Teladan</span>
+                            </div>
+                            <div class="text-xs font-sans text-slate-600 mt-1">
+                                Kelas: <strong id="cert-kelas-siswa" class="text-slate-800">XI.F-1</strong> &nbsp;|&nbsp; 
+                                Sekolah: <span id="cert-sekolah-siswa">SMA Negeri 1 Belitang</span>
+                            </div>
+                            <p class="text-xs font-sans text-slate-700 max-w-2xl mx-auto leading-relaxed pt-2">
+                                Atas keberhasilannya dalam menyelesaikan seluruh rangkaian pembelajaran dan asesmen evaluasi 
+                                <strong>Media Pembelajaran Interaktif Fisika Bab 1: Vektor</strong> dengan predikat kelulusan sangat baik.
+                            </p>
+                            <!-- Score Badge -->
+                            <div class="inline-flex items-center gap-3 px-5 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold font-sans">
+                                <span>Nilai Akhir Kuis:</span>
+                                <span id="cert-nilai-akhir" class="text-base text-amber-700 font-mono font-black">95 / 100</span>
+                                <span class="text-emerald-700">(LULUS KOMPETEN)</span>
+                            </div>
+                        </div>
+
+                        <!-- Certificate Bottom Signatures -->
+                        <div class="flex items-end justify-between px-6 pb-2 text-xs font-sans">
+                            <!-- Official Seal / Stempel -->
+                            <div class="text-center">
+                                <div class="w-20 h-20 rounded-full border-2 border-dashed border-teal-700/60 p-1 flex items-center justify-center mx-auto text-teal-800 text-[9px] uppercase font-bold tracking-tight text-center leading-tight">
+                                    VERIFIED<br>DIGITAL<br>ACADEMIC
+                                </div>
+                                <span class="text-[10px] text-slate-500 mt-1 block">Validasi Digital</span>
+                            </div>
+
+                            <!-- Date & Teacher Signature -->
+                            <div class="text-center min-w-[220px]">
+                                <div class="text-[11px] text-slate-600 mb-1">
+                                    Belitang, <span id="cert-tanggal-terbit">12 Oktober 2026</span>
+                                </div>
+                                <div class="text-[11px] text-slate-500 font-serif italic mb-6">
+                                    Guru Mata Pelajaran Fisika
+                                </div>
+                                <div class="w-32 h-8 mx-auto flex items-center justify-center font-serif text-amber-800 font-bold italic text-base">
+                                    Alfiyatur R.
+                                </div>
+                                <div class="font-bold text-slate-900 text-xs border-t border-slate-700 pt-1">
+                                    Alfiyatur Rosyida, S.Pd., Gr.
+                                </div>
+                                <div class="text-[10px] text-slate-500">
+                                    NIP. Guru Pengampu Fisika
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>

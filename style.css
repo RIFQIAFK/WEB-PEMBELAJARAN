@@ -1,0 +1,314 @@
+/* ========================================================
+   MEDIA PEMBELAJARAN INTERAKTIF FISIKA: BAB 1 VEKTOR
+   SMA NEGERI 1 BELITANG - FASE F (KELAS XI)
+   Tema: Navy Blue (#0a192f), Teal (#0d9488), Aksen Emas (#f59e0b)
+   ======================================================== */
+
+:root {
+  --navy-dark: #070d1e;
+  --navy-base: #0a192f;
+  --navy-light: #172a45;
+  --navy-card: #0f2038;
+  --teal-primary: #14b8a6;
+  --teal-dark: #0d9488;
+  --teal-glow: rgba(20, 184, 166, 0.35);
+  --gold-accent: #f59e0b;
+  --gold-light: #fbbf24;
+  --gold-glow: rgba(245, 158, 11, 0.35);
+}
+
+body {
+  background-color: var(--navy-dark);
+  color: #f1f5f9;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070d1e;
+}
+::-webkit-scrollbar-thumb {
+  background: #172a45;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0d9488;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(15, 32, 56, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.glass-panel-gold {
+  background: rgba(23, 42, 69, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Header & Nav Buttons */
+.nav-btn {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #94a3b8;
+  border-radius: 0.6rem;
+  transition: all 0.25s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  color: #f8fafc;
+  background-color: rgba(20, 184, 166, 0.15);
+  border-color: rgba(20, 184, 166, 0.3);
+}
+
+.nav-btn.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  border-color: #14b8a6;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+}
+
+/* Material Subtabs */
+.subtab-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  background-color: #0f2038;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.subtab-btn:hover {
+  color: #5eead4;
+  border-color: #14b8a6;
+}
+
+.subtab-btn.active {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: #ffffff;
+  border-color: #2dd4bf;
+  box-shadow: 0 2px 10px rgba(20, 184, 166, 0.35);
+}
+
+/* Quiz Option Buttons */
+.option-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 1.15rem;
+  border-radius: 0.75rem;
+  background-color: #0f2038;
+  border: 1.5px solid #1e3a5f;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: #14b8a6;
+  background-color: #172a45;
+  transform: translateX(3px);
+}
+
+.option-btn.selected {
+  border-color: #14b8a6;
+  background-color: rgba(20, 184, 166, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.25);
+}
+
+.option-btn.correct {
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.25) !important;
+  color: #6ee7b7 !important;
+}
+
+.option-btn.incorrect {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.25) !important;
+  color: #fca5a5 !important;
+}
+
+/* Matching Question Drag and Tap Elements */
+.match-source-item {
+  background: #0f2038;
+  border: 1.5px solid #1e3a5f;
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.match-source-item:hover {
+  border-color: #f59e0b;
+  background: #172a45;
+}
+
+.match-source-item.active-select {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.2);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.match-target-slot {
+  background: #091323;
+  border: 1.5px dashed #334e68;
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.match-target-slot.hover-drop {
+  border-color: #14b8a6;
+  background: rgba(20, 184, 166, 0.15);
+}
+
+.match-target-slot.filled {
+  border-style: solid;
+  border-color: #14b8a6;
+  background: rgba(20, 184, 166, 0.12);
+}
+
+.match-target-slot.correct-slot {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.match-target-slot.incorrect-slot {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Interactive Card Flip */
+.flip-card-container {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Pulse Glow Keyframes */
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.25); }
+  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+}
+
+.glow-gold {
+  animation: goldPulse 3s infinite ease-in-out;
+}
+
+@keyframes tealPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(20, 184, 166, 0.25); }
+  50% { box-shadow: 0 0 25px rgba(20, 184, 166, 0.6); }
+}
+
+.glow-teal {
+  animation: tealPulse 3s infinite ease-in-out;
+}
+
+/* Fade in for tab transitions */
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-content {
+  animation: fadeInSlide 0.35s ease-out forwards;
+}
+
+/* Printable Certificate Container */
+#certificate-render-area {
+  width: 900px;
+  height: 636px;
+  background: #ffffff;
+  color: #0f172a;
+  position: relative;
+  font-family: 'Times New Roman', Times, serif, Georgia;
+}
+
+.cert-border-outer {
+  border: 8px double #1e3a5f;
+  margin: 12px;
+  height: calc(100% - 24px);
+  padding: 16px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.cert-border-inner {
+  border: 2px solid #d97706;
+  height: 100%;
+  padding: 24px 32px;
+  position: relative;
+  background: radial-gradient(circle at center, #ffffff 60%, #f8fafc 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #certificate-print-modal, #certificate-print-modal * {
+    visibility: visible;
+  }
+  #certificate-print-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+  }
+}
